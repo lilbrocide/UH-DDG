@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$error_msg = '';
+
 if (isset($_SESSION['username'])) {
     header("Location: welcome.php");  
     exit();
@@ -24,10 +26,10 @@ if (isset($_POST['login'])) {
             header("Location: welcome.php");
             exit();  
         } else {
-            echo "<p class='error'>Invalid username or password</p>";
+            $error_msg = "Invalid username or password";
         }
     } else {
-        echo "<p class='error'>Invalid username or password</p>";
+        $error_msg = "Invalid username or password";
     }
 
     $stmt->close();
@@ -48,6 +50,11 @@ if (isset($_POST['login'])) {
             <input type="text" id="username" name="username" required><br>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br>
+            <?php
+            if (!empty($error_msg)) {
+                echo "<p class='error'>$error_msg</p>";
+            }
+            ?>
             <input type="submit" name="login" value="Login">
         </form>
 
